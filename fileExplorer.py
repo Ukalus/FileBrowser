@@ -4,16 +4,16 @@ import glfw
 
 class MainMenuUI:
     open_new_file_dialog = False
-    root_path = ""
+    open_select_folder_dialog = False
     new_root_path = ""
     selected_file = ""
     root_path = os.path.abspath("../")
     def debug_show_state(self):
         imgui.begin("debug main menu")
         imgui.text("open_new_file_dialog:" + str(self.open_new_file_dialog))
-        imgui.text("root_path:" + self.root_path)
-        imgui.text("new_root_path:" + self.new_root_path)
-        imgui.text("selected_file:" + self.selected_file)
+        imgui.input_text("root_path:", self.root_path)
+        imgui.input_text("new_root_path:", self.new_root_path)
+        imgui.input_text("selected_file:", self.selected_file)
         imgui.end()
     def render_file_tree_compontent(self):
         imgui.begin("Filebrowser", True)
@@ -35,11 +35,11 @@ class MainMenuUI:
         :param path: The root path to render.
         :param selected_file: The currently selected file.
         """
-        current_path = path
+
 
         try:
             # List directory contents
-            for entry in os.scandir(current_path):
+            for entry in os.scandir(path):
                 if entry.is_dir():
                     # Render directory as a tree node with unique IDs
                     if imgui.tree_node(entry.name):
@@ -70,7 +70,7 @@ class MainMenuUI:
 
                 open_folder_clicked, _ = imgui.menu_item("Open folder")
                 if open_folder_clicked:
-                    print("Example 3 selected")
+                    self.open_select_folder_dialog = True
 
                 imgui.end_menu()
 
@@ -102,10 +102,20 @@ class MainMenuUI:
             if imgui.button("No"):
                 self.open_new_file_dialog = False  # Close the dialog
             imgui.end()
+        if self.open_select_folder_dialog:
+            imgui.begin("Open File")
+            imgui.text("Enter File path")
+            changed,self.new_root_path = imgui.input_text("path:", self.new_root_path)
+            imgui.text(self.new_root_path)
+            if imgui.button("Open"):
+                print("ukalus:" + self.new_root_path)
+                self.root_path = self.new_root_path
+                self.open_select_folder_dialog = False
+            imgui.end()
+
 
     def render_text_file(self):
         if self.selected_file and os.path.isfile(self.selected_file):
-            print("file selected")
             file_content = self.read_file(self.selected_file)
             imgui.begin("File Viewer", True)
             imgui.text(f"Viewing file: {self.selected_file}")

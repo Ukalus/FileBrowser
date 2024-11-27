@@ -40,7 +40,7 @@ def main():
         mainMenuUI.draw_top_menu()
         mainMenuUI.render_file_tree_compontent()
         mainMenuUI.render_text_file()
-        mainMenuUI.debug_show_state()
+        # mainMenuUI.debug_show_state()
 
         # Display the selected file's content in a text box
         
