@@ -1,13 +1,18 @@
 import os
 import imgui
 import glfw
+from goldenSunDD import Rom_DD
 
 class MainMenuUI:
     open_new_file_dialog = False
     open_select_folder_dialog = False
-    new_root_path = ""
+    open_rom_export_dialog = False
+    new_root_path = os.path.abspath("./")
+    root_path = os.path.abspath("./")
+    export_rom_path = os.path.abspath("./") + "/rom_fs"
     selected_file = ""
-    root_path = os.path.abspath("../")
+    rom_dd = rom_dd = Rom_DD()
+
     def debug_show_state(self):
         imgui.begin("debug main menu")
         imgui.text("open_new_file_dialog:" + str(self.open_new_file_dialog))
@@ -72,6 +77,9 @@ class MainMenuUI:
                 if open_folder_clicked:
                     self.open_select_folder_dialog = True
 
+                open_rom_clicked, _ = imgui.menu_item("Open Rom")
+                if open_rom_clicked:
+                    self.open_rom_export_dialog = True
                 imgui.end_menu()
 
             # View Menu
@@ -113,6 +121,23 @@ class MainMenuUI:
                 self.open_select_folder_dialog = False
             imgui.end()
 
+        if self.open_rom_export_dialog:
+            imgui.begin("Open ROM")
+            
+            imgui.text("Enter ROM path")
+            changed_input_path,self.new_root_path = imgui.input_text("in_path:", self.new_root_path)
+
+            imgui.text("Export path")
+            changed_output_path,self.export_rom_path = imgui.input_text("out_path:", self.export_rom_path)
+            
+            if imgui.button("Unpack ROM"):
+                self.rom_dd.set_input_path("/home/ukalus/Schreibtisch/goldenSunDD.nds")
+                self.rom_dd.set_output_path(self.export_rom_path)
+                self.rom_dd.export_rom_fs()
+                self.root_path = self.export_rom_path
+                self.open_rom_export_dialog = False
+            imgui.end()
+        
 
     def render_text_file(self):
         if self.selected_file and os.path.isfile(self.selected_file):
