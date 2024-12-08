@@ -1,7 +1,7 @@
 import os
 import imgui
 import glfw
-from goldenSunDD import Rom_DD
+from ukalusEditor.goldenSunDD import Rom_DD
 
 class MainMenuUI:
     open_new_file_dialog = False
@@ -139,11 +139,14 @@ class MainMenuUI:
             imgui.end()
         
 
-    def render_text_file(self):
-        if self.selected_file and os.path.isfile(self.selected_file):
-            file_content = self.read_file(self.selected_file)
-            imgui.begin("File Viewer", True)
-            imgui.text(f"Viewing file: {self.selected_file}")
-            imgui.separator()
-            imgui.input_text_multiline("##FileContent", file_content, width=1000, height=1000)
-            imgui.end()
+    def handle_file(self):
+        print("file selected")
+        # if self.selected_file and os.path.isfile(self.selected_file):
+        #     file_content = self.read_file(self.selected_file)
+        #     imgui.begin("File Viewer", True)
+        #     imgui.text(f"Viewing file: {self.selected_file}")
+        #     imgui.separator()
+        #     # differenciate between different ROM files
+        #     if self.selected_file
+        #     imgui.input_text_multiline("##FileContent", file_content, width=1000, height=1000)
+        #     imgui.end()

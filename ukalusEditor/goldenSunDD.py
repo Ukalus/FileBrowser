@@ -32,7 +32,7 @@ class Rom_DD:
     def set_output_path(self,path: str):
         self.output_path = os.path.join(os.getcwd(), path)
         os.makedirs(self.output_path, exist_ok=True)
-    def create_folder_structure_with_full_path(self,index, input_folder, current_path, output_base, rom, max_depth=4):
+    def create_folder_structure_with_full_path(self,index, input_folder, current_path, output_base, rom, max_depth=100):
         if index >= max_depth:
             return
 
