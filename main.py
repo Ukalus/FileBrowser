@@ -13,7 +13,7 @@ def main():
         return
 
     # Create a GLFW window
-    window = glfw.create_window(800, 600, "ImGui + GLFW Example", None, None)
+    window = glfw.create_window(1400, 800, "Ukalus Explorer", None, None)
     if not window:
         glfw.terminate()
         print("Failed to create GLFW window")
